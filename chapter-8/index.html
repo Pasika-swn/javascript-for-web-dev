@@ -35,12 +35,56 @@
       </div>
     </section>
 
-    <script>
-      // Start Scene
 
-      // Game Play Scene
+    <!-- JS SCRIPT -->
+    <script>
+      //selection
+      const startGameScene = document.getElementById("start-game");
+      const playGameScene = document.getElementById("play-game");
+      const endGameScene = document.getElementById("end-game");
+
+      const startButton = document.getElementById("start-button");
+
+      //FN API
+      const startGamePlay = async () => {
+          try {
+            const response = await fetch('https://pokeapi.co/api/v2/pokemon?limit=100000&offset=0')
+            
+            if (!response.ok) {
+              throw new Error('ไม่สามารถดึงข้อมูลออกมาได้') //ถ้าเข้าบรรทัดนี้จะ break ออกไปที่ catch(error) เลย
+            }
+
+            const responseJSON = await response.json()
+            const randomIndex = Math.floor(Math.random() * responseJSON.results.length)
+
+            const selectedAnswer = responseJSON.results[randomIndex].name
+
+            console.log('selectedAnswer', selectedAnswer) //ลองปริ้น
+
+          } catch (error) {
+            console.log('error', error)
+            alert('มีปัญหาขัดข้องจากการโหลดข้อมูลจ้าา')
+          }
+      }
+      
+      //using 'addEventListener' จัดการปรับ DOM
+      startButton.addEventListener("click", () => {
+        // Start Scene
+        startGameScene.classList.add("hidden");
+        // Game Play Scene
+        playGameScene.classList.remove("hidden");
+        playGameScene.classList.add("play-center");
+
+
+
+        //เริ่มเกมได้
+        startGamePlay()
+      });
       // End Scene
       // 2. มีการเรียกใช้ API จาก https://pokeapi.co/ เพื่อนำข้อมูลชื่อ pokemon มาใช้ (Async API)
+
+
+
 
       // สร้าง function สำหรับการเล่นเกม
 
